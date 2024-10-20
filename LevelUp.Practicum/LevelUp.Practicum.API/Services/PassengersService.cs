@@ -13,6 +13,12 @@ public sealed class PassengersService(TicketsDbContext context) : IPassengersSer
             .FirstOrDefault(p => p.Id.Equals(id));
     }
 
+    public IEnumerable<Passenger> GetAll()
+    {
+        return context.Passengers
+            .Include(p => p.Tickets);
+    }
+
     public Guid Create(string name)
     {
         var passenger = new Passenger(Guid.NewGuid(), name);

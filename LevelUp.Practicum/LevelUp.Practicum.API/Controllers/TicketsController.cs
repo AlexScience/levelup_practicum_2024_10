@@ -19,6 +19,5 @@ public sealed class TicketsController(ITicketsService ticketsService) : Controll
         {
             return NotFound(e.Message);
         }
-        
     }
 }
