@@ -8,9 +8,17 @@ namespace LevelUp.Practicum.API.Controllers;
 public sealed class TicketsController(ITicketsService ticketsService) : ControllerBase
 {
     [HttpPost("/bind")]
-    public ActionResult<Guid> Create([FromBody]Guid ownerId)
+    public ActionResult<Guid> Create([FromBody] Guid ownerId)
     {
-        var guid = ticketsService.Create(ownerId);
-        return Ok(guid);
+        try
+        {
+            var guid = ticketsService.Create(ownerId);
+            return Ok(guid);
+        }
+        catch (PassengerNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        
     }
 }
