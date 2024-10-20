@@ -19,6 +19,13 @@ public sealed class PassengersController(IPassengersService passengersService) :
 
         return Ok(passenger);
     }
+
+    [HttpGet("/all")]
+    public ActionResult<IEnumerable<Passenger>> GetAll()
+    {
+        var passengers = passengersService.GetAll();
+        return Ok(passengers);
+    }
     
     [HttpPost("/new")]
     public ActionResult<Guid> Create([FromBody]string name)
