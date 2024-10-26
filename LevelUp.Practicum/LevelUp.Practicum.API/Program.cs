@@ -12,6 +12,7 @@ var connStr = builder.Configuration.GetConnectionString("TicketsDb");
 builder.Services.AddDbContext<TicketsDbContext>(opt => opt.UseNpgsql(connStr));
 builder.Services.AddScoped<IPassengersService, PassengersService>();
 builder.Services.AddScoped<ITicketsService, TicketsService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

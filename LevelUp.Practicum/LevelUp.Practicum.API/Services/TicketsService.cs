@@ -7,11 +7,13 @@ public sealed class TicketsService(TicketsDbContext context) : ITicketsService
 {
     public Guid Create(Guid ownerId)
     {
-        var passengerFound = context.Passengers.Any(p => p.Id == ownerId);
-        if (!passengerFound)
+        var passenger = context.Passengers.Find(ownerId);
+        if (passenger == null)
         {
             throw new PassengerNotFoundException(ownerId);
         }
+
+        
 
         var ticket = new Ticket(Guid.NewGuid(), ownerId);
         context.Tickets.Add(ticket);
