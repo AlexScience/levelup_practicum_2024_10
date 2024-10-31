@@ -1,4 +1,5 @@
-﻿using LevelUp.Practicum.API.Models;
+﻿using LevelUp.Practicum.API.CustomExceptions;
+using LevelUp.Practicum.API.Models;
 using LevelUp.Practicum.API.Services;
 using Microsoft.AspNetCore.Mvc;
 

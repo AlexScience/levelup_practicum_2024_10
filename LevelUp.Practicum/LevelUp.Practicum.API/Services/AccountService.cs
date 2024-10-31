@@ -1,4 +1,5 @@
-﻿using LevelUp.Practicum.API.DataAccess;
+﻿using LevelUp.Practicum.API.CustomExceptions;
+using LevelUp.Practicum.API.DataAccess;
 using LevelUp.Practicum.API.Models;
 
 namespace LevelUp.Practicum.API.Services;
