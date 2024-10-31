@@ -11,6 +11,8 @@ public class TicketsDbContext : DbContext
 
     public DbSet<Account> Accounts { get; set; } = default!;
 
+    public DbSet<Vehicle> Vehicles { get; set; } = default!;
+
     public TicketsDbContext(DbContextOptions ops) : base(ops)
     {
     }
@@ -20,5 +22,6 @@ public class TicketsDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PassengersConfiguration());
         modelBuilder.ApplyConfiguration(new TicketConfiguration());
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
+        modelBuilder.ApplyConfiguration(new VehicleConfiguration());
     }
 }

@@ -3,6 +3,7 @@ using System;
 using LevelUp.Practicum.API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LevelUp.Practicum.API.Migrations
 {
     [DbContext(typeof(TicketsDbContext))]
-    partial class TicketsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031122305_InitVehicle")]
+    partial class InitVehicle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,17 +69,9 @@ namespace LevelUp.Practicum.API.Migrations
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("VehicleId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
-
-                    b.HasIndex("VehicleId");
 
                     b.ToTable("ticket", (string)null);
                 });
@@ -119,15 +114,7 @@ namespace LevelUp.Practicum.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LevelUp.Practicum.API.Models.Vehicle", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Owner");
-
-                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("LevelUp.Practicum.API.Models.Passenger", b =>

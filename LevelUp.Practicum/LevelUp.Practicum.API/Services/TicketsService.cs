@@ -5,7 +5,7 @@ namespace LevelUp.Practicum.API.Services;
 
 public sealed class TicketsService(TicketsDbContext context) : ITicketsService
 {
-    public Guid Create(Guid ownerId)
+    public Guid Create(Guid ownerId, Guid vehicleId)
     {
         var passenger = context.Passengers.Find(ownerId);
         if (passenger == null)
@@ -13,12 +13,21 @@ public sealed class TicketsService(TicketsDbContext context) : ITicketsService
             throw new PassengerNotFoundException(ownerId);
         }
 
-        
+        var vehicle = context.Vehicles.Find(vehicleId);
+        if (vehicle == null)
+        {
+            throw new VehicleNotFoundException(vehicleId);
+        }
 
-        var ticket = new Ticket(Guid.NewGuid(), ownerId);
+        var ticket = new Ticket(Guid.NewGuid(), ownerId, vehicleId)
+        {
+            Price = vehicle.TicketPrice
+        };
+
         context.Tickets.Add(ticket);
         context.SaveChanges();
 
         return ticket.Id;
     }
+    
 }

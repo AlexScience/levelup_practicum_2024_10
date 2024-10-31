@@ -20,14 +20,14 @@ public sealed class PassengersController(IPassengersService passengersService) :
         return Ok(passenger);
     }
 
-    [HttpGet("/all")]
+    [HttpGet("all")]
     public ActionResult<IEnumerable<Passenger>> GetAll()
     {
         var passengers = passengersService.GetAll();
         return Ok(passengers);
     }
     
-    [HttpPost("/new")]
+    [HttpPost("new")]
     public ActionResult<Guid> Create([FromBody]string name)
     {
         var guid = passengersService.Create(name);

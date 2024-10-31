@@ -13,6 +13,7 @@ builder.Services.AddDbContext<TicketsDbContext>(opt => opt.UseNpgsql(connStr));
 builder.Services.AddScoped<IPassengersService, PassengersService>();
 builder.Services.AddScoped<ITicketsService, TicketsService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

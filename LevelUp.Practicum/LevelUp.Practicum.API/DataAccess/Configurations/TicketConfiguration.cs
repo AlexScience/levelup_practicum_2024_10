@@ -17,7 +17,21 @@ public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
 
         builder.HasOne<Passenger>(t => t.Owner)
             .WithMany(p => p.Tickets)
-            .HasForeignKey(t => t.OwnerId);
+            .HasForeignKey(t => t.OwnerId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Property(t => t.VehicleId)
+            .HasColumnType("uuid")
+            .IsRequired();
+
+        builder.HasOne(t => t.Vehicle)
+            .WithMany()
+            .HasForeignKey(t => t.VehicleId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Property(t => t.Price)
+            .HasColumnType("decimal(18,2)")
+            .IsRequired();
         
         
     }
