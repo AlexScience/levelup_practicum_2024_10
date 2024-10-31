@@ -66,11 +66,38 @@ namespace LevelUp.Practicum.API.Migrations
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
 
+                    b.HasIndex("VehicleId");
+
                     b.ToTable("ticket", (string)null);
+                });
+
+            modelBuilder.Entity("LevelUp.Practicum.API.Models.Vehicle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TicketPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("vehicle", (string)null);
                 });
 
             modelBuilder.Entity("LevelUp.Practicum.API.Models.Account", b =>
@@ -92,7 +119,15 @@ namespace LevelUp.Practicum.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LevelUp.Practicum.API.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Owner");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("LevelUp.Practicum.API.Models.Passenger", b =>
