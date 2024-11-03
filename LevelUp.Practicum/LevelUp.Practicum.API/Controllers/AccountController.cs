@@ -9,8 +9,8 @@ namespace LevelUp.Practicum.API.Controllers;
 [Route("[controller]")]
 public sealed class AccountController(IAccountService accountService) : ControllerBase
 {
-    [HttpPost("/create")]
-    public ActionResult<Guid> Create([FromBody] Guid ownerId)
+    [HttpPost("/create{ownerId}")]
+    public ActionResult<Guid> Create(Guid ownerId)
     {
         try
         {

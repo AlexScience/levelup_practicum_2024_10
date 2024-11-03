@@ -38,6 +38,6 @@ public class AccountService(TicketsDbContext context) : IAccountService
         account.Balance += amount;
         context.SaveChanges();
 
-        return new ServiceResult { Success = true, Message = $"Счёт успешно пополнен.\n Баланс: {account.Balance}" };
+        return new ServiceResult { Success = true, Message = $"Счёт успешно пополнен.\nБаланс: {account.Balance}" };
     }
 }
