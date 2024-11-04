@@ -1,0 +1,44 @@
+﻿@page "/passengers/getbyid"
+@using LevelUp.Practicum.API.Models
+@using LevelUp.Practicum.UI.Services
+
+@inject IPassengersApiService PassengerService
+
+<h3>Get Passenger By ID</h3>
+
+<input type="text" @bind="searchPassengerId" placeholder="Enter Passenger ID" class="form-control" />
+<button class="btn btn-secondary mt-1" @onclick="LoadPassengerById">Get Passenger</button>
+
+@if (singlePassenger != null)
+{
+    <h5>Passenger Details:</h5>
+    <p><strong>Name:</strong> @singlePassenger.Name</p>
+    <p><strong>ID:</strong> @singlePassenger.Id</p>
+}
+else if (errorMessage != null)
+{
+    <p class="text-danger">@errorMessage</p>
+}
+
+@code {
+    private string? searchPassengerId;
+    private Passenger? singlePassenger;
+    private string? errorMessage;
+
+    private async Task LoadPassengerById()
+    {
+        errorMessage = null;
+        if (Guid.TryParse(searchPassengerId, out var id))
+        {
+            singlePassenger = await PassengerService.GetByIdAsync(id);
+            if (singlePassenger == null)
+            {
+                errorMessage = "Passenger not found.";
+            }
+        }
+        else
+        {
+            errorMessage = "Invalid ID format.";
+        }
+    }
+}

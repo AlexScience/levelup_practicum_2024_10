@@ -1,0 +1,33 @@
+﻿@page "/passengers/create"
+@using LevelUp.Practicum.API.Models
+@using LevelUp.Practicum.UI.Services
+
+@inject IPassengersApiService PassengerService
+
+<h3>Create New Passenger</h3>
+
+<input type="text" @bind="newPassengerName" placeholder="Enter Passenger Name" class="form-control" />
+<button class="btn btn-success mt-1" @onclick="CreatePassenger">Create</button>
+
+@if (message != null)
+{
+    <p>@message</p>
+}
+
+@code {
+    private string? newPassengerName;
+    private string? message;
+
+    private async Task CreatePassenger()
+    {
+        if (!string.IsNullOrWhiteSpace(newPassengerName))
+        {
+            var newId = await PassengerService.CreateAsync(newPassengerName);
+            message = $"New passenger created with ID: {newId}";
+        }
+        else
+        {
+            message = "Name cannot be empty.";
+        }
+    }
+}

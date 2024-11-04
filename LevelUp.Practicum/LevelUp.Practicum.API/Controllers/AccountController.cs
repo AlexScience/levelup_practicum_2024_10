@@ -24,7 +24,7 @@ public sealed class AccountController(IAccountService accountService) : Controll
         
     }
 
-    [HttpGet("/GetAll")]
+    [HttpGet("/getAll")]
     public ActionResult<IEnumerable<Account>> GetAll()
     {
         var accounts = accountService.GetAll();

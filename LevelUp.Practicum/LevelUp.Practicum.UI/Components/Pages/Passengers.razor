@@ -1,0 +1,99 @@
+﻿@page "/passengers"
+@using LevelUp.Practicum.API.Models
+@using LevelUp.Practicum.UI.Services
+
+@inject IPassengersApiService PassengerService
+
+<h3>Passengers</h3>
+
+<button class="btn btn-primary my-2" @onclick="LoadAllPassengers">Get All Passengers</button>
+
+<div class="my-2">
+    <input type="text" @bind="_searchPassengerId" placeholder="Enter Passenger ID" class="form-control" />
+    <button class="btn btn-secondary mt-1" @onclick="LoadPassengerById">Get Passenger By ID</button>
+</div>
+
+<div class="my-2">
+    <input type="text" @bind="_newPassengerName" placeholder="Enter Passenger Name" class="form-control" />
+    <button class="btn btn-success mt-1" @onclick="CreatePassenger">Create New Passenger</button>
+</div>
+
+@if (_passengers != null && _passengers.Any())
+{
+    <h5>All Passengers:</h5>
+    <ul>
+        @foreach (var passenger in _passengers)
+        {
+            <li>@passenger.Name (@passenger.Id)</li>
+        }
+    </ul>
+}
+
+@if (_singlePassenger != null)
+{
+    <h5>Passenger Details:</h5>
+    <p><strong>Name:</strong> @_singlePassenger.Name</p>
+    <p><strong>ID:</strong> @_singlePassenger.Id</p>
+}
+
+@code {
+    private IEnumerable<Passenger>? _passengers;
+    private Passenger? _singlePassenger;
+    private string? _searchPassengerId;
+    private string? _newPassengerName;
+
+    private async Task LoadAllPassengers()
+    {
+        try
+        {
+            _passengers = await PassengerService.GetAllAsync();
+            _singlePassenger = null; // Очищаем предыдущий результат
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading all passengers: {ex.Message}");
+        }
+    }
+
+    private async Task LoadPassengerById()
+    {
+        if (Guid.TryParse(_searchPassengerId, out var id))
+        {
+            try
+            {
+                _singlePassenger = await PassengerService.GetByIdAsync(id);
+                _passengers = null; // Очищаем список всех пассажиров
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading passenger by ID: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid Passenger ID format.");
+        }
+    }
+
+    private async Task CreatePassenger()
+    {
+        if (!string.IsNullOrWhiteSpace(_newPassengerName))
+        {
+            try
+            {
+                var newId = await PassengerService.CreateAsync(_newPassengerName);
+                _searchPassengerId = newId.ToString();
+                await LoadPassengerById(); // Загружаем данные для нового пассажира
+                _passengers = null; // Очищаем список всех пассажиров
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating passenger: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Passenger name cannot be empty.");
+        }
+    }
+}

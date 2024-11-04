@@ -1,0 +1,34 @@
+﻿@page "/passengers/getall"
+@using LevelUp.Practicum.API.Models
+@using LevelUp.Practicum.UI.Services
+
+@inject IPassengersApiService PassengerService
+
+<h3>All Passengers</h3>
+
+@if (passengers == null)
+{
+    <p>Loading...</p>
+}
+else if (!passengers.Any())
+{
+    <p>No passengers found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var passenger in passengers)
+        {
+            <li>@passenger.Name (@passenger.Id)</li>
+        }
+    </ul>
+}
+
+@code {
+    private IEnumerable<Passenger>? passengers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        passengers = await PassengerService.GetAllAsync();
+    }
+}
