@@ -16,7 +16,8 @@ public sealed class PassengersService(TicketsDbContext context) : IPassengersSer
     public IEnumerable<Passenger> GetAll()
     {
         return context.Passengers
-            .Include(p => p.Tickets);
+            .Include(p => p.Tickets)
+            .Include(p => p.Accounts);
     }
 
     public Guid Create(string name)
